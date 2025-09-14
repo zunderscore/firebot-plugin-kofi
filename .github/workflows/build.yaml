@@ -10,6 +10,9 @@ on:
     paths:
       - "src/**"
 
+permissions:
+  contents: write
+
 jobs:
   checktag:
     name: Check for existing version tag
