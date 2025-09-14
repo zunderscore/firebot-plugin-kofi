@@ -45,12 +45,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
-          node-version: '18.20.2'
+          node-version: '22.19.0'
           
       - name: Install Project Dependencies
         run: npm install
@@ -59,7 +59,7 @@ jobs:
         run: npm run build
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.plugin_name }} Release
           path: ./dist/${{ env.plugin_name }}.js
@@ -71,14 +71,14 @@ jobs:
 
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: ${{ env.plugin_name }} Release
           path: ./artifacts/
 
       - name: Draft Release
         id: draft
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
