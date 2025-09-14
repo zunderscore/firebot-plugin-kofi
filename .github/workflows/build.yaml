@@ -1,0 +1,91 @@
+name: Build Plugin and Draft Release
+
+env:
+  plugin_name: firebot-kofi
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+
+jobs:
+  checktag:
+    name: Check for existing version tag
+    runs-on: ubuntu-latest
+
+    outputs:
+      version: ${{ steps.set_output.outputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get version
+        run: |
+            echo "PackageVersion=$(cat package.json | jq --raw-output '.version')" >> $GITHUB_ENV
+
+      - name: Check for corresponding git tag
+        id: tag_check
+        uses: mukunku/tag-exists-action@v1.2.0
+        with:
+          tag: "$PackageVersion"
+
+      - name: Fail on existing tag
+        if: ${{ steps.tag_check.outputs.exists == 'true' }}
+        run: exit 1
+
+      - name: Set Output
+        id: set_output
+        run: echo "version=$PackageVersion" >> $GITHUB_OUTPUT
+
+  build:
+    name: Build plugin
+    needs: checktag
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.20.2'
+          
+      - name: Install Project Dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.plugin_name }} Release
+          path: ./dist/${{ env.plugin_name }}.js
+
+  release:
+    name: Draft Release
+    needs: [checktag, build]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.plugin_name }} Release
+          path: ./artifacts/
+
+      - name: Draft Release
+        id: draft
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.checktag.outputs.version }}
+          name: ${{ env.plugin_name }} ${{ needs.checktag.outputs.version }}
+          body: "## Release Notes\n\n- "
+          draft: true
+          prerelease: false
+          files: |
+            ./artifacts/${{ env.plugin_name }}.js
