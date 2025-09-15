@@ -13,4 +13,5 @@ export class WebhookManager extends EventEmitter {
     getWebhook(name: string): WebhookConfig | null;
     deleteWebhook(name: string): boolean;
     getWebhooks(): WebhookConfig[];
+    getWebhookUrl(name: string): string | null;
 }

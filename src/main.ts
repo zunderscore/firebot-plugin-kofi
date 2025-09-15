@@ -111,6 +111,7 @@ const processWebhook = ({ config, payload }: { config: WebhookConfig, payload: {
 
 const script: Firebot.CustomScript<{
     verificationToken: string;
+    copyWebhookUrl: void;
 }> = {
     getScriptManifest: () => {
         return {
@@ -127,6 +128,15 @@ const script: Firebot.CustomScript<{
             description: "This value is provided by Ko-fi on the API page of your Ko-fi settings. It ensures that any webhook data received is legitimate and correlates to your Ko-fi account.",
             type: "password",
             default: ""
+        },
+        copyWebhookUrl: {
+            type: "button",
+            title: "Webhook URL",
+            description: "Once you save the plugin the first time, come back here to copy this URL. Then paste it into the **Webhook URL** field in your Ko-fi account under More > API > Webhooks.",
+            backendEventName: "kofi:copy-webhook-url",
+            buttonText: "Copy URL",
+            icon: "fa-copy",
+            sync: true
         }
     }),
     parametersUpdated: (params) => {
@@ -160,6 +170,15 @@ const script: Firebot.CustomScript<{
                 replaceVariableManager.addEventToVariable(firebotVariable, KOFI_EVENT_SOURCE_ID, eventName);
             }
         }
+
+        logDebug("Registering frontend listener");
+        const frontendCommunicator = modules.frontendCommunicator;
+        frontendCommunicator.on("kofi:copy-webhook-url", () => {
+            frontendCommunicator.send("copy-to-clipboard", { 
+                text: webhookManager.getWebhookUrl(PLUGIN_NAME),
+            });
+        });
+
 
         logDebug("Registering webhook listener...");
         webhookManager.on("webhook-received", processWebhook);

@@ -2,7 +2,7 @@
   "name": "firebot-plugin-kofi",
   "scriptOutputName": "firebot-kofi",
   "version": "1.0.0",
-  "description": "A Firebot plugin for Ko-fi",
+  "description": "A Ko-fi plugin for Firebot",
   "main": "",
   "scripts": {
     "build": "webpack",
