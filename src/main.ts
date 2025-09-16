@@ -1,8 +1,8 @@
-import { Firebot, Integration } from "@crowbartools/firebot-custom-scripts-types";
+import { Firebot } from "@crowbartools/firebot-custom-scripts-types";
 import { Logger } from "@crowbartools/firebot-custom-scripts-types/types/modules/logger";
 import { EventManager } from "@crowbartools/firebot-custom-scripts-types/types/modules/event-manager";
 import { ReplaceVariableManager } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
-import { WebhookConfig, WebhookManager } from "./webhook-manager";
+import { WebhookConfig, WebhookManager } from "@crowbartools/firebot-custom-scripts-types/types/modules/webhook-manager";
 
 import { KofiEventSource } from "./events";
 import { KofiVariables, FirebotVariableAdditionalEvents } from "./variables";
@@ -120,6 +120,8 @@ const script: Firebot.CustomScript<{
             author: packageInfo.author,
             version: packageInfo.version,
             firebotVersion: "5",
+            startupOnly: true,
+            initBeforeShowingParams: true
         };
     },
     getDefaultParameters: () => ({
@@ -132,7 +134,7 @@ const script: Firebot.CustomScript<{
         copyWebhookUrl: {
             type: "button",
             title: "Webhook URL",
-            description: "Once you save the plugin the first time, come back here to copy this URL. Then paste it into the **Webhook URL** field in your Ko-fi account under More > API > Webhooks.",
+            description: "Copy this URL and paste it into the **Webhook URL** field in your Ko-fi account under More > API > Webhooks.",
             backendEventName: "kofi:copy-webhook-url",
             buttonText: "Copy URL",
             icon: "fa-copy",
@@ -144,15 +146,13 @@ const script: Firebot.CustomScript<{
         logDebug("Verification token updated");
     },
     run: ({ modules, parameters }) => {
-        ({ logger, eventManager, replaceVariableManager } = modules);
+        ({ logger, eventManager, replaceVariableManager, webhookManager } = modules);
         ({ verificationToken } = parameters);
 
-        logInfo(`Starting Ko-fi plugin...`);
+        logInfo(`Starting ${PLUGIN_NAME} plugin...`);
 
-        webhookManager = modules.webhookManager as WebhookManager;
-        
         if (webhookManager == null) {
-            logError(`Cannot start Ko-fi plugin. You must be on Firebot 5.65 or higher.`);
+            logError(`Cannot start ${PLUGIN_NAME} plugin. You must be on Firebot 5.65 or higher.`);
             return;
         }
 
@@ -166,7 +166,6 @@ const script: Firebot.CustomScript<{
 
         for (const firebotVariable of Object.keys(FirebotVariableAdditionalEvents)) {
             for (const eventName of FirebotVariableAdditionalEvents[firebotVariable]) {
-                //@ts-ignore
                 replaceVariableManager.addEventToVariable(firebotVariable, KOFI_EVENT_SOURCE_ID, eventName);
             }
         }
@@ -200,9 +199,8 @@ const script: Firebot.CustomScript<{
         logDebug("Webhook registered");
         logInfo("Plugin ready. Listening for events.");
     },
-    //@ts-ignore
     stop: (uninstalling: boolean) => {
-        logDebug("Stopping Ko-fi plugin");
+        logDebug(`Stopping ${PLUGIN_NAME} plugin`);
 
         logDebug("Stopping webhook listener");
         webhookManager.removeListener("webhook-received", processWebhook);

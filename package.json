@@ -13,7 +13,7 @@
   "author": "zunderscore",
   "license": "MIT",
   "devDependencies": {
-    "@crowbartools/firebot-custom-scripts-types": "^5.63.2",
+    "@crowbartools/firebot-custom-scripts-types": "github:crowbartools/firebot-custom-scripts-types#6382b7e120346b4b070db5e72060268187e19ace",
     "@types/node": "^24.3.3",
     "jest": "^30.1.3",
     "terser-webpack-plugin": "^5.3.14",

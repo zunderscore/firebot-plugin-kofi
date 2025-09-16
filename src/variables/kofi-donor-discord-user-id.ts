@@ -1,6 +1,7 @@
 import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
 import { KofiEventData } from "../kofi-types";
 import {
+    VARIABLE_PREFIX,
     KOFI_EVENT_SOURCE_ID,
     KOFI_DONATION_EVENT_ID,
     KOFI_SUBSCRIPTION_EVENT_ID,
@@ -9,7 +10,7 @@ import {
 
 export const KofiDonorDiscordUserIdVariable: ReplaceVariable = {
     definition: {
-        handle: "kofiDonorDiscordUserId",
+        handle: `${VARIABLE_PREFIX}DonorDiscordUserId`,
         description: "**WARNING: Potentially sensitive data! Use this variable with caution!** The Ko-fi donor's Discord user ID.",
         possibleDataOutput: [ "text" ],
         categories: [ "trigger based", "advanced" ],

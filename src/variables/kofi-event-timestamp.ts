@@ -1,6 +1,7 @@
 import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
 import { KofiEventData } from "../kofi-types";
 import {
+    VARIABLE_PREFIX,
     KOFI_EVENT_SOURCE_ID,
     KOFI_DONATION_EVENT_ID,
     KOFI_SUBSCRIPTION_EVENT_ID,
@@ -9,7 +10,7 @@ import {
 
 export const KofiEventTimestampVariable: ReplaceVariable = {
     definition: {
-        handle: "kofiEventTimestamp",
+        handle: `${VARIABLE_PREFIX}EventTimestamp`,
         description: "The Ko-fi timestamp of when the event occurred.",
         possibleDataOutput: [ "text" ],
         categories: [ "trigger based", "advanced" ],

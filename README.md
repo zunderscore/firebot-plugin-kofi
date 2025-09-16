@@ -15,11 +15,10 @@ This plugin adds support for Ko-fi events and related variables to Firebot.
 3. Click on "Manage Startup Scripts"
 4. Click "Add New Script"
 5. Select the `firebot-kofi.js` file from the dropdown list
-6. Enter your Ko-fi webhook verification token in the **Verification Token** field
-7. Click "Save" to finish installing the plugin
-8. Reopen the plugin settings by clicking the "Edit" button next to "Ko-fi" in the "Startup Scripts" modal
-9. Click the "Copy URL" button under "Webhook URL", then close both the script settings and the "Startup Scripts" modals
-10. In your Ko-fi account, under More > API > Webhooks, paste the copied URL into the **Webhook URL** field and click "Update"
+6. Click "Add & Configure"
+7. Enter your Ko-fi webhook verification token in the **Verification Token** field
+8. Click the "Copy URL" button under "Webhook URL", click "Save", then close the "Startup Scripts" modal
+9. In your Ko-fi account, under More > API > Webhooks, paste the copied URL into the **Webhook URL** field and click "Update"
 
 ## Events
 

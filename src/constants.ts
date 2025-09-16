@@ -1,5 +1,6 @@
 export const PLUGIN_NAME = "Ko-fi";
 export const PLUGIN_ID = "kofi";
+export const VARIABLE_PREFIX = PLUGIN_ID;
 
 export const KOFI_EVENT_SOURCE_ID = PLUGIN_ID;
 export const KOFI_DONATION_EVENT_ID = "donation";

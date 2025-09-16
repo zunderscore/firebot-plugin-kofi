@@ -13,17 +13,17 @@ export const KofiEventSource: EventSource = {
     events: [
         {
             id: KOFI_DONATION_EVENT_ID,
-            name: "Ko-fi: Donation",
+            name: `${PLUGIN_NAME}: Donation`,
             description: "When you receive a Ko-fi donation"
         },
         {
             id: KOFI_SUBSCRIPTION_EVENT_ID,
-            name: "Ko-fi: Subscription",
+            name: `${PLUGIN_NAME}: Subscription`,
             description: "When you receive a Ko-fi subscription payment"
         },
         {
             id: KOFI_SHOP_ORDER_EVENT_ID,
-            name: "Ko-fi: Shop Order",
+            name: `${PLUGIN_NAME}: Shop Order`,
             description: "When you receive a Ko-fi shop order"
         }
     ]
