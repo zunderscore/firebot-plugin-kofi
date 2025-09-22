@@ -1,8 +1,5 @@
 name: Build Plugin and Draft Release
 
-env:
-  plugin_name: firebot-kofi
-
 on:
   workflow_dispatch:
   push:
@@ -20,17 +17,22 @@ jobs:
 
     outputs:
       version: ${{ steps.set_output.outputs.version }}
+      pluginname: ${{ steps.set_output.outputs.pluginname }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get version
         run: |
             echo "PackageVersion=$(cat package.json | jq --raw-output '.version')" >> $GITHUB_ENV
 
+      - name: Get script name
+        run: |
+            echo "PluginName=$(cat package.json | jq --raw-output '.scriptOutputName')" >> $GITHUB_ENV
+
       - name: Check for corresponding git tag
         id: tag_check
-        uses: mukunku/tag-exists-action@v1.2.0
+        uses: mukunku/tag-exists-action@v1.6.0
         with:
           tag: "$PackageVersion"
 
@@ -40,7 +42,9 @@ jobs:
 
       - name: Set Output
         id: set_output
-        run: echo "version=$PackageVersion" >> $GITHUB_OUTPUT
+        run: |
+          echo "version=$PackageVersion" >> $GITHUB_OUTPUT &&
+          echo "pluginname=$PluginName" >> $GITHUB_OUTPUT
 
   build:
     name: Build plugin
@@ -64,8 +68,8 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.plugin_name }} Release
-          path: ./dist/${{ env.plugin_name }}.js
+          name: ${{ needs.checktag.outputs.pluginname }} Release
+          path: ./dist/${{ needs.checktag.outputs.pluginname }}.js
 
   release:
     name: Draft Release
@@ -76,7 +80,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v5
         with:
-          name: ${{ env.plugin_name }} Release
+          name: ${{ needs.checktag.outputs.pluginname }} Release
           path: ./artifacts/
 
       - name: Draft Release
@@ -86,9 +90,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ needs.checktag.outputs.version }}
-          name: ${{ env.plugin_name }} ${{ needs.checktag.outputs.version }}
+          name: ${{ needs.checktag.outputs.version }}
           body: "## Release Notes\n\n- "
           draft: true
           prerelease: false
           files: |
-            ./artifacts/${{ env.plugin_name }}.js
+            ./artifacts/${{ needs.checktag.outputs.pluginname }}.js
