@@ -2,8 +2,8 @@ import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/type
 import { KofiSubscriptionEventData } from "../kofi-types";
 import {
     VARIABLE_PREFIX,
-    KOFI_EVENT_SOURCE_ID,
-    KOFI_SUBSCRIPTION_EVENT_ID
+    EVENT_SOURCE_ID,
+    SUBSCRIPTION_EVENT_ID
 } from "../constants";
 
 export const KofiSubscriptionTierNameVariable: ReplaceVariable = {
@@ -14,7 +14,7 @@ export const KofiSubscriptionTierNameVariable: ReplaceVariable = {
         categories: [ "trigger based", "text" ],
         triggers: {
             event: [
-                `${KOFI_EVENT_SOURCE_ID}:${KOFI_SUBSCRIPTION_EVENT_ID}`
+                `${EVENT_SOURCE_ID}:${SUBSCRIPTION_EVENT_ID}`
             ],
             manual: true
         }

@@ -17,10 +17,10 @@ import {
 
 import {
     PLUGIN_NAME,
-    KOFI_EVENT_SOURCE_ID,
-    KOFI_DONATION_EVENT_ID,
-    KOFI_SUBSCRIPTION_EVENT_ID,
-    KOFI_SHOP_ORDER_EVENT_ID
+    EVENT_SOURCE_ID,
+    DONATION_EVENT_ID,
+    SUBSCRIPTION_EVENT_ID,
+    SHOP_ORDER_EVENT_ID
 } from "./constants";
 
 
@@ -77,16 +77,16 @@ const processWebhook = ({ config, payload }: { config: WebhookConfig, payload: {
 
     switch (payloadData.type) {
         case "Donation":
-            eventName = KOFI_DONATION_EVENT_ID;
+            eventName = DONATION_EVENT_ID;
             break;
             
         case "Subscription":
-            eventName = KOFI_SUBSCRIPTION_EVENT_ID;
+            eventName = SUBSCRIPTION_EVENT_ID;
             (eventData as KofiSubscriptionEventData).tierName = payloadData.tier_name;
             break;
             
         case "Shop Order":
-            eventName = KOFI_SHOP_ORDER_EVENT_ID;
+            eventName = SHOP_ORDER_EVENT_ID;
             
             const shopItems: KofiShopItem[] = [];
             for (const item of payloadData.shop_items) {
@@ -106,7 +106,7 @@ const processWebhook = ({ config, payload }: { config: WebhookConfig, payload: {
     }
 
     logDebug(`Triggering event ${eventName}`);
-    eventManager.triggerEvent(KOFI_EVENT_SOURCE_ID, eventName, eventData);
+    eventManager.triggerEvent(EVENT_SOURCE_ID, eventName, eventData);
 };
 
 const script: Firebot.CustomScript<{
@@ -166,7 +166,7 @@ const script: Firebot.CustomScript<{
 
         for (const firebotVariable of Object.keys(FirebotVariableAdditionalEvents)) {
             for (const eventName of FirebotVariableAdditionalEvents[firebotVariable]) {
-                replaceVariableManager.addEventToVariable(firebotVariable, KOFI_EVENT_SOURCE_ID, eventName);
+                replaceVariableManager.addEventToVariable(firebotVariable, EVENT_SOURCE_ID, eventName);
             }
         }
 

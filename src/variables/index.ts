@@ -14,9 +14,9 @@ import { KofiTransactionUrlVariable } from "./kofi-transaction-url";
 import { KofiVerificationTokenVariable } from "./kofi-verification-token";
 
 import {
-    KOFI_DONATION_EVENT_ID,
-    KOFI_SUBSCRIPTION_EVENT_ID,
-    KOFI_SHOP_ORDER_EVENT_ID
+    DONATION_EVENT_ID,
+    SUBSCRIPTION_EVENT_ID,
+    SHOP_ORDER_EVENT_ID
 } from "../constants";
 
 export const KofiVariables = [
@@ -38,18 +38,18 @@ export const KofiVariables = [
 
 export const FirebotVariableAdditionalEvents: Record<string, string[]> = {
     donationFrom: [
-        KOFI_DONATION_EVENT_ID,
-        KOFI_SUBSCRIPTION_EVENT_ID,
-        KOFI_SHOP_ORDER_EVENT_ID
+        DONATION_EVENT_ID,
+        SUBSCRIPTION_EVENT_ID,
+        SHOP_ORDER_EVENT_ID
     ],
     donationMessage: [
-        KOFI_DONATION_EVENT_ID,
-        KOFI_SUBSCRIPTION_EVENT_ID,
-        KOFI_SHOP_ORDER_EVENT_ID
+        DONATION_EVENT_ID,
+        SUBSCRIPTION_EVENT_ID,
+        SHOP_ORDER_EVENT_ID
     ],
     donationAmount: [
-        KOFI_DONATION_EVENT_ID,
-        KOFI_SUBSCRIPTION_EVENT_ID,
-        KOFI_SHOP_ORDER_EVENT_ID
+        DONATION_EVENT_ID,
+        SUBSCRIPTION_EVENT_ID,
+        SHOP_ORDER_EVENT_ID
     ]
 }

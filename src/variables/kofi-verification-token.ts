@@ -2,10 +2,10 @@ import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/type
 import { KofiEventData } from "../kofi-types";
 import {
     VARIABLE_PREFIX,
-    KOFI_EVENT_SOURCE_ID,
-    KOFI_DONATION_EVENT_ID,
-    KOFI_SUBSCRIPTION_EVENT_ID,
-    KOFI_SHOP_ORDER_EVENT_ID
+    EVENT_SOURCE_ID,
+    DONATION_EVENT_ID,
+    SUBSCRIPTION_EVENT_ID,
+    SHOP_ORDER_EVENT_ID
 } from "../constants";
 
 export const KofiVerificationTokenVariable: ReplaceVariable = {
@@ -16,9 +16,9 @@ export const KofiVerificationTokenVariable: ReplaceVariable = {
         categories: [ "trigger based", "advanced" ],
         triggers: {
             event: [
-                `${KOFI_EVENT_SOURCE_ID}:${KOFI_DONATION_EVENT_ID}`,
-                `${KOFI_EVENT_SOURCE_ID}:${KOFI_SUBSCRIPTION_EVENT_ID}`,
-                `${KOFI_EVENT_SOURCE_ID}:${KOFI_SHOP_ORDER_EVENT_ID}`
+                `${EVENT_SOURCE_ID}:${DONATION_EVENT_ID}`,
+                `${EVENT_SOURCE_ID}:${SUBSCRIPTION_EVENT_ID}`,
+                `${EVENT_SOURCE_ID}:${SHOP_ORDER_EVENT_ID}`
             ],
             manual: true
         }
