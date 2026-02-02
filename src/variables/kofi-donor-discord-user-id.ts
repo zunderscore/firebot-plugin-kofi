@@ -11,7 +11,7 @@ import {
 export const KofiDonorDiscordUserIdVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}DonorDiscordUserId`,
-        description: "**WARNING: Potentially sensitive data! Use this variable with caution!** The Ko-fi donor's Discord user ID.",
+        description: "The Ko-fi donor's Discord user ID.",
         possibleDataOutput: [ "text" ],
         categories: [ "trigger based", "advanced" ],
         triggers: {
@@ -21,7 +21,8 @@ export const KofiDonorDiscordUserIdVariable: ReplaceVariable = {
                 `${EVENT_SOURCE_ID}:${SHOP_ORDER_EVENT_ID}`
             ],
             manual: true
-        }
+        },
+        sensitive: true
     },
     evaluator: async (trigger) => {
         return (trigger.metadata?.eventData as KofiEventData)?.discordUserId;

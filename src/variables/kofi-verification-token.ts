@@ -11,7 +11,7 @@ import {
 export const KofiVerificationTokenVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}VerificationToken`,
-        description: "**WARNING: Potentially sensitive data! Use this variable with caution!** The verification token that Ko-fi sends with webhook messages.",
+        description: "The verification token that Ko-fi sends with webhook messages.",
         possibleDataOutput: [ "text" ],
         categories: [ "trigger based", "advanced" ],
         triggers: {
@@ -21,7 +21,8 @@ export const KofiVerificationTokenVariable: ReplaceVariable = {
                 `${EVENT_SOURCE_ID}:${SHOP_ORDER_EVENT_ID}`
             ],
             manual: true
-        }
+        },
+        sensitive: true
     },
     evaluator: async (trigger) => {
         return (trigger.metadata?.eventData as KofiEventData)?.verificationToken;

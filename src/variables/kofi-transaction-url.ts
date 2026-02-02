@@ -11,7 +11,7 @@ import {
 export const KofiTransactionUrlVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}TransactionUrl`,
-        description: "**WARNING: Potentially sensitive data! Use this variable with caution!** The URL of the Ko-fi transaction.",
+        description: "The URL of the Ko-fi transaction.",
         possibleDataOutput: [ "text" ],
         categories: [ "trigger based", "advanced" ],
         triggers: {
@@ -21,7 +21,8 @@ export const KofiTransactionUrlVariable: ReplaceVariable = {
                 `${EVENT_SOURCE_ID}:${SHOP_ORDER_EVENT_ID}`
             ],
             manual: true
-        }
+        },
+        sensitive: true
     },
     evaluator: async (trigger) => {
         return (trigger.metadata?.eventData as KofiEventData)?.url;
