@@ -1,4 +1,5 @@
-import { EventSource } from "@crowbartools/firebot-custom-scripts-types/types/modules/event-manager";
+import type { EventSource } from "@crowbartools/firebot-types";
+
 import {
     PLUGIN_NAME,
     EVENT_SOURCE_ID,

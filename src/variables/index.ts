@@ -1,3 +1,5 @@
+import type { PluginAdditionalVariableEvents } from "@crowbartools/firebot-types";
+
 import { KofiCurrencyVariable } from "./kofi-currency";
 import { KofiDonorDiscordUserIdVariable } from "./kofi-donor-discord-user-id";
 import { KofiDonorDiscordUsernameVariable } from "./kofi-donor-discord-username";
@@ -16,7 +18,8 @@ import { KofiVerificationTokenVariable } from "./kofi-verification-token";
 import {
     DONATION_EVENT_ID,
     SUBSCRIPTION_EVENT_ID,
-    SHOP_ORDER_EVENT_ID
+    SHOP_ORDER_EVENT_ID,
+    EVENT_SOURCE_ID
 } from "../constants";
 
 export const KofiVariables = [
@@ -36,20 +39,29 @@ export const KofiVariables = [
     KofiVerificationTokenVariable
 ];
 
-export const FirebotVariableAdditionalEvents: Record<string, string[]> = {
-    donationFrom: [
-        DONATION_EVENT_ID,
-        SUBSCRIPTION_EVENT_ID,
-        SHOP_ORDER_EVENT_ID
-    ],
-    donationMessage: [
-        DONATION_EVENT_ID,
-        SUBSCRIPTION_EVENT_ID,
-        SHOP_ORDER_EVENT_ID
-    ],
-    donationAmount: [
-        DONATION_EVENT_ID,
-        SUBSCRIPTION_EVENT_ID,
-        SHOP_ORDER_EVENT_ID
-    ]
-}
+export const FirebotVariableAdditionalEvents: PluginAdditionalVariableEvents[] = [
+    {
+        handle: "donationFrom",
+        events: [
+            { eventSourceId: EVENT_SOURCE_ID, eventId: DONATION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SUBSCRIPTION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SHOP_ORDER_EVENT_ID },
+        ]
+    },
+    {
+        handle: "donationMessage",
+        events: [
+            { eventSourceId: EVENT_SOURCE_ID, eventId: DONATION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SUBSCRIPTION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SHOP_ORDER_EVENT_ID },
+        ]
+    },
+    {
+        handle: "donationAmount",
+        events: [
+            { eventSourceId: EVENT_SOURCE_ID, eventId: DONATION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SUBSCRIPTION_EVENT_ID },
+            { eventSourceId: EVENT_SOURCE_ID, eventId: SHOP_ORDER_EVENT_ID },
+        ]
+    }
+]

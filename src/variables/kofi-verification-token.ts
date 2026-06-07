@@ -1,5 +1,5 @@
-import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
-import { KofiEventData } from "../kofi-types";
+import type { ReplaceVariable } from "@crowbartools/firebot-types";
+import type { KofiEventData } from "../kofi-types";
 import {
     VARIABLE_PREFIX,
     EVENT_SOURCE_ID,
@@ -12,8 +12,8 @@ export const KofiVerificationTokenVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}VerificationToken`,
         description: "The verification token that Ko-fi sends with webhook messages.",
-        possibleDataOutput: [ "text" ],
-        categories: [ "trigger based", "advanced" ],
+        possibleDataOutput: ["text"],
+        categories: ["trigger based", "advanced"],
         triggers: {
             event: [
                 `${EVENT_SOURCE_ID}:${DONATION_EVENT_ID}`,

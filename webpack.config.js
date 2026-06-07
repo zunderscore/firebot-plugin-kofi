@@ -13,10 +13,13 @@ module.exports = {
     libraryTarget: "commonjs2",
     libraryExport: "default",
     path: path.resolve(__dirname, "./dist"),
-    filename: `${packageJson.scriptOutputName}.js`,
+    filename: `${packageJson.pluginOutputName}.js`,
   },
   resolve: {
     extensions: [".ts", ".js"],
+  },
+  externals: {
+    "@crowbartools/firebot-types": "commonjs2 @crowbartools/firebot-types"
   },
   module: {
     rules: [

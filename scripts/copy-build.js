@@ -1,13 +1,13 @@
 /**
- *  Copies the built script .js to Firebot's scripts folder
+ *  Copies the built plugin .js to Firebot's scripts folder
  */
 const fs = require("fs").promises;
 const { Console } = require("console");
 const path = require("path");
 
-const extractScriptName = () => {
+const extractPluginName = () => {
   const packageJson = require("../package.json");
-  return `${packageJson.scriptOutputName}.js`;
+  return `${packageJson.pluginOutputName}.js`;
 };
 
 const getFirebotScriptsFolderPath = () => {
@@ -52,20 +52,49 @@ const getFirebotScriptsFolderPath = () => {
   return scriptsFolderPath;
 };
 
+const requestPluginReload = async (pluginName) => {
+  const reloadUrl = "http://localhost:7472/api/v1/plugins/restart";
+
+  try {
+    const response = await fetch(reloadUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fileName: pluginName }),
+    });
+
+    if (!response.ok) {
+      console.warn(
+        `Firebot responded with status ${response.status} when reloading ${pluginName}. Skipping hot-reload.`
+      );
+      return;
+    }
+
+    console.log(`Requested Firebot to reload ${pluginName}.`);
+  } catch (error) {
+    console.warn(
+      `Could not reach Firebot to reload ${pluginName} (is it running?). Skipping hot-reload.`
+    );
+  }
+};
+
 const main = async () => {
   const firebotScriptsFolderPath = getFirebotScriptsFolderPath();
 
-  const scriptName = extractScriptName();
+  const pluginName = extractPluginName();
 
-  const srcScriptFilePath = path.resolve(`./dist/${scriptName}`);
-  const destScriptFilePath = path.join(
+  const srcPluginFilePath = path.resolve(`./dist/${pluginName}`);
+  const destPluginFilePath = path.join(
     firebotScriptsFolderPath,
-    `${scriptName}`
+    `${pluginName}`
   );
 
-  await fs.copyFile(srcScriptFilePath, destScriptFilePath);
+  console.log(`Copying ${pluginName} to "${destPluginFilePath}"...`);
 
-  console.log(`Successfully copied ${scriptName} to Firebot scripts folder.`);
+  await fs.copyFile(srcPluginFilePath, destPluginFilePath);
+
+  console.log(`Successfully copied ${pluginName} to Firebot scripts folder.`);
+
+  await requestPluginReload(pluginName);
 };
 
 main();
