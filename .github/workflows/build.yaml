@@ -24,11 +24,11 @@ jobs:
 
       - name: Get version
         run: |
-            echo "PackageVersion=$(cat package.json | jq --raw-output '.version')" >> $GITHUB_ENV
+          echo "PackageVersion=$(cat package.json | jq --raw-output '.version')" >> $GITHUB_ENV
 
-      - name: Get script name
+      - name: Get plugin name
         run: |
-            echo "PluginName=$(cat package.json | jq --raw-output '.scriptOutputName')" >> $GITHUB_ENV
+          echo "PluginName=$(cat package.json | jq --raw-output '.pluginOutputName')" >> $GITHUB_ENV
 
       - name: Check for corresponding git tag
         id: tag_check
@@ -57,8 +57,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: '22.19.0'
-          
+          node-version: "22.19.0"
+
       - name: Install Project Dependencies
         run: npm install
 
