@@ -100,7 +100,6 @@ const plugin: Plugin<{
     copyWebhookUrl: void;
 }> = {
     manifest: {
-        type: "plugin",
         name: PLUGIN_NAME,
         description: packageInfo.description,
         author: packageInfo.author,
