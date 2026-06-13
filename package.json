@@ -5,7 +5,7 @@
   "description": "A Ko-fi plugin for Firebot",
   "main": "",
   "scripts": {
-    "build": "webpack",
+    "build": "tsdown",
     "build:dev": "npm run build && npm run copy",
     "copy": "node ./scripts/copy-build.js",
     "test": "jest"
@@ -13,14 +13,11 @@
   "author": "zunderscore",
   "license": "MIT",
   "devDependencies": {
-    "@crowbartools/firebot-types": "^5.67.0-alpha20",
+    "@crowbartools/firebot-types": "^5.67.0-alpha22",
     "@types/node": "^24.3.3",
     "jest": "^30.1.3",
-    "terser-webpack-plugin": "^5.3.14",
     "ts-jest": "^29.4.1",
-    "ts-loader": "^9.5.4",
-    "typescript": "^5.9.2",
-    "webpack": "^5.101.3",
-    "webpack-cli": "^6.0.1"
+    "tsdown": "^0.22.2",
+    "typescript": "^5.9.2"
   }
 }

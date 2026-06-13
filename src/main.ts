@@ -12,6 +12,7 @@ import {
 } from "./kofi-types";
 
 import {
+    PLUGIN_ID,
     PLUGIN_NAME,
     EVENT_SOURCE_ID,
     DONATION_EVENT_ID,
@@ -95,6 +96,11 @@ const processWebhook: PluginWebhookEventHandler = ({ webhook, payload }) => {
     firebot.events.trigger(EVENT_SOURCE_ID, eventName, eventData);
 };
 
+function updateToken(newToken: string) {
+    verificationToken = newToken;
+    firebot.logger.debug("Verification token updated");
+}
+
 const plugin: Plugin<{
     verificationToken: string;
     copyWebhookUrl: void;
@@ -126,7 +132,7 @@ const plugin: Plugin<{
             type: "button",
             title: "Webhook URL",
             description: "Copy this URL and paste it into the **Webhook URL** field in your Ko-fi account under More > API > Webhooks.",
-            backendEventName: "kofi:copy-webhook-url",
+            backendEventName: `${PLUGIN_ID}:copy-webhook-url`,
             buttonText: "Copy URL"
         }
     ],
@@ -139,21 +145,23 @@ const plugin: Plugin<{
             webhookNames: [
                 PLUGIN_NAME
             ]
-        }
+        },
+        frontendListeners: [
+            {
+                eventName: `${PLUGIN_ID}:copy-webhook-url`,
+                handler: () => {
+                    firebot.frontendCommunicator.send("copy-to-clipboard", {
+                        text: firebot.webhooks.getUrl(PLUGIN_NAME),
+                    });
+                }
+            }
+        ]
     },
     onLoad: (context) => {
-        firebot.frontendCommunicator.on("kofi:copy-webhook-url", () => {
-            firebot.frontendCommunicator.send("copy-to-clipboard", {
-                text: firebot.webhooks.getUrl(PLUGIN_NAME),
-            });
-        });
-
-        verificationToken = context.parameters.verificationToken;
-        firebot.logger.debug("Verification token updated");
+        updateToken(context.parameters.verificationToken);
     },
     onParameterUpdate: (context) => {
-        verificationToken = context.parameters.verificationToken;
-        firebot.logger.debug("Verification token updated");
+        updateToken(context.parameters.verificationToken);
     }
 }
 
