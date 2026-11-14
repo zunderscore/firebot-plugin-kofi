@@ -1,5 +1,5 @@
-import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
-import { KofiEventData } from "../kofi-types";
+import type { ReplaceVariable } from "@crowbartools/firebot-types";
+import type { KofiEventData } from "../kofi-types";
 import {
     VARIABLE_PREFIX,
     EVENT_SOURCE_ID,
@@ -12,8 +12,8 @@ export const KofiIsSubscriptionPaymentVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}IsSubscriptionPayment`,
         description: "Whether this Ko-fi transaction is a subscription payment.",
-        possibleDataOutput: [ "bool" ],
-        categories: [ "trigger based", "advanced" ],
+        possibleDataOutput: ["bool"],
+        categories: ["trigger based", "advanced"],
         triggers: {
             event: [
                 `${EVENT_SOURCE_ID}:${DONATION_EVENT_ID}`,

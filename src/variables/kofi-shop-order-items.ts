@@ -1,5 +1,5 @@
-import { ReplaceVariable } from "@crowbartools/firebot-custom-scripts-types/types/modules/replace-variable-manager";
-import { KofiShopOrderEventData } from "../kofi-types";
+import type { ReplaceVariable } from "@crowbartools/firebot-types";
+import type { KofiShopOrderEventData } from "../kofi-types";
 import {
     VARIABLE_PREFIX,
     EVENT_SOURCE_ID,
@@ -10,8 +10,8 @@ export const KofiShopOrderItemsVariable: ReplaceVariable = {
     definition: {
         handle: `${VARIABLE_PREFIX}ShopOrderItems`,
         description: "The items from the Ko-fi shop order as an array. Each item has a `directLinkCode`, `variationName`, and `quantity`.",
-        possibleDataOutput: [ "array" ],
-        categories: [ "trigger based", "advanced" ],
+        possibleDataOutput: ["array"],
+        categories: ["trigger based", "advanced"],
         triggers: {
             event: [
                 `${EVENT_SOURCE_ID}:${SHOP_ORDER_EVENT_ID}`
